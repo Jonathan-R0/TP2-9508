@@ -6,16 +6,15 @@
 
 void Node::seeName() { std::cout << name; }
 
-std::list<Node*> Node::getNext() { return next; }
+std::list<Node*> Node::getNext() { return nextNodes; }
 
-void Node::addNext(Node* newNext) { next.push_back(newNext); }
+void Node::addNext(Node* newNext) { nextNodes.push_back(newNext); }
 
 void Node::seeNextNodes() {
   this->seeName();
-  std::cout << " -> ";
-  for (Node* nodo : next) {
-    nodo->seeName();
+  for (Node* nodo : nextNodes) {
     std::cout << " -> ";
+    nodo->seeName();
   }
   std::cout << std::endl;
 }

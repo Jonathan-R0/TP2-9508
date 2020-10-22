@@ -1,17 +1,18 @@
 #ifndef NODE_H_
 #define NODE_H_
 
-#include <iostream>
 #include <list>
 #include <string>
 
 class Node {
  private:
   const std::string name;
-  std::list<Node*> next;
+  std::list<Node*> nextNodes;
 
  public:
-  Node(std::string nameGiven) : name(nameGiven) {}
+  int line;
+  Node(std::string nameGiven, int lineGiven)
+      : name(nameGiven), line(lineGiven) {}
   void seeName();
   std::list<Node*> getNext();
   void addNext(Node* newNext);
