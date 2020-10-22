@@ -11,9 +11,9 @@ class Node {
 
  public:
   int line;
+  void seeName();
   Node(std::string nameGiven, int lineGiven)
       : name(nameGiven), line(lineGiven) {}
-  void seeName();
   std::list<Node*> getNext();
   void addNext(Node* newNext);
   void seeNextNodes();

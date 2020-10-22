@@ -11,7 +11,6 @@ typedef std::map<int, Node*>::iterator iterator_t;
 
 class Graph {
  private:
-  std::map<std::string, int> labels;
   std::map<int, Node*> nodes;
 
  public:
@@ -24,12 +23,7 @@ class Graph {
   void printGraph();
   void dfs(Node* start, std::list<Node*>* found);
   Node* newNode(std::string name, int line);
-
-  ~Graph() {
-    for (iterator_t it = nodes.begin(); it != nodes.end(); ++it) {
-      delete (it->second);
-    }
-  }
+  ~Graph();
 };
 
 #endif  // GRAPH_H_

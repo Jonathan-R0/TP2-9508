@@ -28,7 +28,7 @@ bool Graph::isIn(Node* node) {
   if (node == nullptr) return false;
   int size = nodes.size();
   for (iterator_t it = nodes.begin(); it != nodes.end(); ++it) {
-    if (node == it->second) {
+    if (node->line == it->second->line) {
       return true;
     }
   }
@@ -64,4 +64,10 @@ Node* Graph::newNode(std::string name, int line) {
   Node* nodo = new Node(name, line);
   this->addVertex(nodo);
   return (nodo);
+}
+
+Graph::~Graph() {
+  for (iterator_t it = nodes.begin(); it != nodes.end(); ++it) {
+    delete (it->second);
+  }
 }
