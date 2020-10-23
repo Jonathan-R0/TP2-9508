@@ -48,15 +48,17 @@ void Graph::printGraph() {
   }
 }
 
-void Graph::dfs(Node* start, std::list<Node*>* found) {
-  if (!this->isIn(start) || found == nullptr) return;
+bool Graph::isCyclic(Node* start, std::list<Node*>* found) {
+  if (isContained(start, *found)) return true;
   found->push_front(start);
   std::list<Node*> adyacentes = start->getNext();
   for (Node* i : adyacentes) {
     if (!isContained(i, *found)) {
-      Graph::dfs(i, found);
+      return Graph::isCyclic(i, found);
     }
   }
+  found->pop_front();
+  return false;
 }
 
 Node* Graph::newNode(std::string name, int line) {

@@ -11,6 +11,7 @@ typedef std::map<int, Node*>::iterator iterator_t;
 
 class Graph {
  private:
+  // std::map<std::string, int> labels; // <- debería estar en el eBPF
   std::map<int, Node*> nodes;
 
  public:
@@ -21,7 +22,7 @@ class Graph {
   void addIfItsNotIn(Node* node);
   void addEdge(Node* from, Node* to);
   void printGraph();
-  void dfs(Node* start, std::list<Node*>* found);
+  bool isCyclic(Node* start, std::list<Node*>* found);
   Node* newNode(std::string name, int line);
   ~Graph();
 };
