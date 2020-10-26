@@ -18,9 +18,11 @@ class Asmline {
   void seeLabel();
   void seeOpCode();
   void seeLabelsToJump();
-
   void setLabel(std::string labelGiven);
   void setOpCode(std::string opCodeGiven);
+  std::string getOpcode();
+  std::string getLabel();
+  std::list<std::string> getLabelsToJumpTo();
   void setLabelsToJump(std::list<std::string> labelsToJumpGiven);
   bool isJump();
 };

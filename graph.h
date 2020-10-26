@@ -7,8 +7,6 @@
 
 #include "node.h"
 
-typedef std::map<int, Node*>::iterator iterator_t;
-
 class Graph {
  private:
   // std::map<std::string, int> labels; // <- debería estar en el eBPF
@@ -23,7 +21,11 @@ class Graph {
   void addEdge(Node* from, Node* to);
   void printGraph();
   bool isCyclic(Node* start, std::list<Node*>* found);
+  bool _isCyclic();
   Node* newNode(std::string name, int line);
+  void dfs(Node* start, std::list<Node*>* found);
+  void connect(int from, int to);
+  void connectLast(int to);
   ~Graph();
 };
 

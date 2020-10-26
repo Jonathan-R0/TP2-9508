@@ -13,8 +13,6 @@ class Parser {
   Parser();
   void parseInstruction(std::string asmLine, Asmline& instruction);
   bool isDelim(char c);
-  void buildInstruction(std::list<char>* delimsSeen,
-                        std::list<std::string>* parts);
 };
 
 #endif  // PARSER_H_

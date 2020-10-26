@@ -17,6 +17,12 @@ bool Asmline::isJump() {
   return false;
 }
 
+std::string Asmline::getOpcode() { return this->opCode; }
+std::string Asmline::getLabel() { return this->label; }
+std::list<std::string> Asmline::getLabelsToJumpTo() {
+  return this->labelsToJump;
+}
+
 // TEST ONLY
 void Asmline::seeLabel() { std::cout << label << std::endl; }
 void Asmline::seeOpCode() { std::cout << opCode << std::endl; }
@@ -28,7 +34,7 @@ void Asmline::setLabel(std::string labelGiven) { label = labelGiven; }
 void Asmline::setOpCode(std::string opCodeGiven) { opCode = opCodeGiven; }
 void Asmline::setLabelsToJump(std::list<std::string> labelsToJumpGiven) {
   if (!this->isJump()) return;
-  if (labelsToJumpGiven.size() == 0) {
+  if (labelsToJumpGiven.size() == 1) {
     labelsToJump.push_back(labelsToJumpGiven.back());
   } else {
     labelsToJumpGiven.pop_front();
