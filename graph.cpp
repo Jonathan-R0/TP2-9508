@@ -5,96 +5,85 @@
 #include <map>
 #include <string>
 
-#include "node.h"
-
-static bool isContained(Node* node, std::list<Node*> list) {
-  for (Node* i : list) {
+bool Graph::hasBeenFound(int node) {
+  for (int i : found) {
     if (node == i) return true;
   }
   return false;
 }
 
-void Graph::addVertex(Node* node) { nodes.insert({node->line, node}); }
+void Graph::addVertex(int node) { nodes[node] = {}; }
 
-void Graph::addEdge(Node* from, Node* to) {
+void Graph::addEdge(int from, int to) {
   this->addIfItsNotIn(from);
   this->addIfItsNotIn(to);
-  from->addNext(to);
+  nodes[from].push_front(to);
 }
 
 int Graph::size() { return nodes.size(); }
 
-bool Graph::isIn(Node* node) {
-  if (node == nullptr) return false;
-  int size = nodes.size();
-  for (auto it : nodes) {
-    if (node->line == it.second->line) {
-      return true;
-    }
+bool Graph::isIn(int node) {
+  for (auto i : nodes) {
+    if (node == i.first) return true;
   }
   return false;
 }
 
-void Graph::addIfItsNotIn(Node* node) {
+void Graph::addIfItsNotIn(int node) {
   if (!this->isIn(node)) {
     this->addVertex(node);
   }
 }
 
-void Graph::printGraph() {
-  int size = nodes.size();
-  for (auto it : nodes) {
-    it.second->seeNextNodes();
+bool Graph::_isCyclic(int start) {
+  if (hasBeenFound(start)) return true;
+  found.push_front(start);
+  for (int i : nodes.at(start)) {
+    if (Graph::_isCyclic(i)) return true;
   }
-}
-
-bool Graph::isCyclic(Node* start, std::list<Node*>* found) {
-  if (isContained(start, *found)) return true;
-  found->push_front(start);
-  std::list<Node*> adyacentes = start->getNext();
-  for (Node* i : adyacentes) {
-    if (Graph::isCyclic(i, found)) return true;
-  }
-  found->remove(start);
+  found.remove(start);
   return false;
 }
 
-bool Graph::_isCyclic() {
-  std::list<Node*> found;
+bool Graph::isCyclic() {
+  found = {};
   for (auto it : nodes) {
-    if (this->isCyclic(it.second, &found)) {
+    if (this->_isCyclic(it.first)) {
+      found.clear();
       return true;
     }
   }
+  found.clear();
   return false;
 }
 
-void Graph::connectLast(int to) {
-  this->addEdge(nodes.at(nodes.size() - 1), nodes.at(to));
-}
+void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
 
-void Graph::dfs(Node* start, std::list<Node*>* found) {
-  if (!this->isIn(start) || found == nullptr) return;
-  found->push_front(start);
-  std::list<Node*> adyacentes = start->getNext();
-  for (Node* i : adyacentes) {
-    if (!isContained(i, *found)) {
+void Graph::dfs(int start, std::list<int>& found) {
+  if (hasBeenFound(start)) return;
+  found.push_front(start);
+  for (int i : nodes[start]) {
+    if (!(hasBeenFound(i))) {
       Graph::dfs(i, found);
     }
   }
 }
 
-Node* Graph::newNode(std::string name, int line) {
-  if (line < this->size()) return nullptr;
-  Node* nodo = new Node(name, line);
-  this->addVertex(nodo);
-  return (nodo);
+bool Graph::hasUnusedInstructions() {
+  if (nodes.size() == 0) return false;
+  dfs(1, found);
+  int amountFound = found.size();
+  found.clear();
+  return (amountFound != nodes.size());
 }
 
-void Graph::connect(int from, int to) { nodes[from]->addNext(nodes[to]); }
-
-Graph::~Graph() {
-  for (auto it : nodes) {
-    delete (it.second);
+void Graph::disconnectNext(int nodo) {
+  std::list<int> aBuscar = nodes[nodo];
+  for (int i : aBuscar) {
+    if (nodo + 1 == i) {
+      nodes[nodo].remove(i);
+    }
   }
 }
+
+void Graph::connect(int from, int to) { nodes[from].push_front(to); }

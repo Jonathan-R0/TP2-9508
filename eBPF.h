@@ -12,6 +12,7 @@ class EBPF {
  private:
   std::map<std::string, std::list<int>> referenciasColgadas;
   std::map<std::string, int> referenciasReconocidas;
+  std::list<int> aristaACortar;
   Graph opGraph;
   Parser parser;
 
@@ -20,9 +21,7 @@ class EBPF {
   void addInstructionToGraph(std::string line, int lineNumber);
   void connectLostTags();
   void hasCycle();
-
-  // TEST ONLY
-  void printOpGraph() { opGraph.printGraph(); }
+  void hasUnusedInstruction();
 };
 
 #endif  // EBPF_H_

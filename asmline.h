@@ -25,6 +25,7 @@ class Asmline {
   std::list<std::string> getLabelsToJumpTo();
   void setLabelsToJump(std::list<std::string> labelsToJumpGiven);
   bool isJump();
+  bool esCortante();
 };
 
 #endif  // ASMLINE_H_

@@ -17,6 +17,13 @@ bool Asmline::isJump() {
   return false;
 }
 
+bool Asmline::esCortante() {
+  if (opCode == "ret" || opCode == "jmp" ||
+      (this->isJump() && labelsToJump.size() == 2))
+    return true;
+  return false;
+}
+
 std::string Asmline::getOpcode() { return this->opCode; }
 std::string Asmline::getLabel() { return this->label; }
 std::list<std::string> Asmline::getLabelsToJumpTo() {

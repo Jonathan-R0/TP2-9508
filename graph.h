@@ -5,28 +5,26 @@
 #include <map>
 #include <string>
 
-#include "node.h"
-
 class Graph {
  private:
-  // std::map<std::string, int> labels; // <- debería estar en el eBPF
-  std::map<int, Node*> nodes;
+  std::map<int, std::list<int>> nodes;
+  std::list<int> found;
 
  public:
   Graph() {}
-  void addVertex(Node* node);
+  void addVertex(int node);
+  bool hasBeenFound(int node);
   int size();
-  bool isIn(Node* node);
-  void addIfItsNotIn(Node* node);
-  void addEdge(Node* from, Node* to);
-  void printGraph();
-  bool isCyclic(Node* start, std::list<Node*>* found);
-  bool _isCyclic();
-  Node* newNode(std::string name, int line);
-  void dfs(Node* start, std::list<Node*>* found);
+  bool isIn(int node);
+  void addIfItsNotIn(int node);
+  void addEdge(int from, int to);
+  bool _isCyclic(int start);
+  bool isCyclic();
+  void dfs(int start, std::list<int>& found);
   void connect(int from, int to);
   void connectLast(int to);
-  ~Graph();
+  bool hasUnusedInstructions();
+  void disconnectNext(int nodo);
 };
 
 #endif  // GRAPH_H_

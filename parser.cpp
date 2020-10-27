@@ -26,7 +26,7 @@ static void parseData(Parser* p, std::string& asmLine,
                       std::list<char>& delimsSeen,
                       std::list<std::string>& parts) {
   std::string placeHolder;
-  char lastChar;
+  char lastChar = 0;
   for (auto c : asmLine) {
     lastChar = c;
     if (p->isDelim(c)) {
