@@ -13,7 +13,7 @@ class FileFountain {
  public:
   FileFountain(int argc, char* argv[]);
   std::string getNext();
-  void sortFiles();
+  // void sortFiles();
 };
 
 #endif  // FILEFOUNTAIN_H_

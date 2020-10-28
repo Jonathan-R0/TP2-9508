@@ -21,21 +21,9 @@ void EBPF::connectLostTags() {
   }
 }
 
-void EBPF::hasCycle() {
-  if (opGraph.isCyclic()) {
-    std::cout << "Has a cycle" << std::endl;
-  } else {
-    std::cout << "Has no cycle" << std::endl;
-  }
-}
+bool EBPF::hasCycle() { return opGraph.isCyclic(); }
 
-void EBPF::hasUnusedInstruction() {
-  if (opGraph.hasUnusedInstructions()) {
-    std::cout << "Has unused instructions" << std::endl;
-  } else {
-    std::cout << "Has no unused instructions" << std::endl;
-  }
-}
+bool EBPF::hasUnusedInstruction() { return opGraph.hasUnusedInstructions(); }
 
 void EBPF::addInstructionToGraph(std::string line, int lineNumber) {
   if (line.size() == 0) return;

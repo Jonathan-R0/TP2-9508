@@ -20,8 +20,8 @@ class EBPF {
   EBPF();
   void addInstructionToGraph(std::string line, int lineNumber);
   void connectLostTags();
-  void hasCycle();
-  void hasUnusedInstruction();
+  bool hasCycle();
+  bool hasUnusedInstruction();
 };
 
 #endif  // EBPF_H_
