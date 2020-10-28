@@ -72,16 +72,17 @@ void Graph::dfs(int start, std::list<int>& found) {
 bool Graph::hasUnusedInstructions() {
   if (nodes.size() == 0) return false;
   dfs(1, found);
-  int amountFound = found.size();
+  long unsigned int amountFound = found.size();
   found.clear();
   return (amountFound != nodes.size());
 }
 
 void Graph::disconnectNext(int nodo) {
-  std::list<int> aBuscar = nodes[nodo];
-  for (int i : aBuscar) {
-    if (nodo + 1 == i) {
-      nodes[nodo].remove(i);
+  std::list<int> searching = nodes[nodo];
+  for (int it : searching) {
+    if (nodo + 1 == it) {
+      nodes[nodo].remove(it);
+      break;
     }
   }
 }

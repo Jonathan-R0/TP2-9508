@@ -11,13 +11,13 @@ EBPF::EBPF() {
 }
 
 void EBPF::connectLostTags() {
+  for (int i : aristaACortar) {
+    opGraph.disconnectNext(i);
+  }
   for (auto it : referenciasColgadas) {
     for (int lineNumber : it.second) {
       opGraph.connect(lineNumber, referenciasReconocidas[it.first]);
     }
-  }
-  for (int i : aristaACortar) {
-    opGraph.disconnectNext(i);
   }
 }
 
@@ -44,7 +44,7 @@ void EBPF::addInstructionToGraph(std::string line, int lineNumber) {
   opGraph.addVertex(lineNumber);
   if (lineNumber != 1) opGraph.connectLast(lineNumber);
   std::list<std::string> labelsToJump = instruction.getLabelsToJumpTo();
-  if (instruction.esCortante()) {  // AÑADIR CASOS DE SALTOS INCONDICIONALES
+  if (instruction.esCortante()) {
     aristaACortar.push_front(lineNumber);
   }
   if (instruction.getLabel().size() != 0) {
