@@ -9,9 +9,15 @@
 
 #define ERR_INSF_ARG "Error, argument not long enough.\n"
 
-static void callEBPF(std::string file, Results& results) {
-  std::cout << "A PROCESAR: " << file << std::endl;
-  EBPF ebpf;
+static void detectProblems(EBPF& ebpf, Results& results, std::string& file) {
+  bool hasCycles = ebpf.hasCycle();
+  if (hasCycles)
+    results.addResult(file, true, false);
+  else
+    results.addResult(file, false, ebpf.hasUnusedInstruction());
+}
+
+static void callEBPF(EBPF& ebpf, Results& results, std::string& file) {
   std::ifstream reader;
   std::string filename(file);
   reader.open(filename, std::ifstream::in);
@@ -24,16 +30,16 @@ static void callEBPF(std::string file, Results& results) {
     i++;
   }
   ebpf.connectLostTags();
-  results.addResult(file, ebpf.hasCycle(), ebpf.hasUnusedInstruction());
   reader.close();
-  std::cout << std::endl;
 }
 
 static int work(int numberOfThreads, FileFountain& files) {
   std::string file;
   Results results;
   while (!(file = files.getNext()).empty()) {
-    callEBPF(file, results);
+    EBPF ebpf;
+    callEBPF(ebpf, results, file);
+    detectProblems(ebpf, results, file);
   }
   results.printResults();
   return 0;
