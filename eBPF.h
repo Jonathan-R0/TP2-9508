@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 
+#include "fileFountain.h"
 #include "graph.h"
 #include "parser.h"
 #include "results.h"
@@ -15,14 +16,14 @@ class EBPF : public Thread {
   std::map<std::string, std::list<int>> referenciasColgadas;
   std::map<std::string, int> referenciasReconocidas;
   std::list<int> aristaACortar;
-  std::string filename;
   Results& results;
   Graph opGraph;
   Parser parser;
-  void init();
+  FileFountain& fileFountain;
+  void init(std::string& filename);
 
  public:
-  EBPF(std::string fname, Results& r);
+  EBPF(Results& r, FileFountain& f);
   void run();
   void addInstructionToGraph(std::string line, int lineNumber);
   void connectLostTags();

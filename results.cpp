@@ -8,13 +8,15 @@
 #define FAILHASCYCLES " FAIL: cycle detected\n"
 #define FAILHASUNUSED " FAIL: unused instructions detected\n"
 
-static int cmp(std::string a, std::string b) { return a > b; }
+static int cmp(std::string a, std::string b) { return a < b; }
 
-void static sort(std::vector<std::string>& v) {
+static void sort(std::vector<std::string>& v) {
   std::sort(v.begin(), v.end(), cmp);
 }
 
 void Results::addResult(std::string file, bool hasCycleB, bool hasUnusedOpB) {
+  std::unique_lock<std::mutex> lock(m);
+  allops.push_back(file);
   if (hasCycleB) {
     hasCycle.push_back(file);
   } else if (hasUnusedOpB) {
@@ -25,10 +27,13 @@ void Results::addResult(std::string file, bool hasCycleB, bool hasUnusedOpB) {
 }
 
 void Results::printResults() {
-  sort(hasCycle);
-  sort(hasUnusedInstructions);
-  sort(good);
-  for (std::string s : good) std::cout << s << CORRECT;
-  for (std::string s : hasCycle) std::cout << s << FAILHASCYCLES;
-  for (std::string s : hasUnusedInstructions) std::cout << s << FAILHASUNUSED;
+  sort(allops);
+  for (std::string s : allops) {
+    if (find(good.begin(), good.end(), s) != good.end())
+      std::cout << s << CORRECT;
+    else if (find(hasCycle.begin(), hasCycle.end(), s) != hasCycle.end())
+      std::cout << s << FAILHASCYCLES;
+    else
+      std::cout << s << FAILHASUNUSED;
+  }
 }

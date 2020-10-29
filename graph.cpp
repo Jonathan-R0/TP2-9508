@@ -23,7 +23,7 @@ void Graph::addEdge(int from, int to) {
 int Graph::size() { return nodes.size(); }
 
 bool Graph::isIn(int node) {
-  for (auto i : nodes) {
+  for (auto& i : nodes) {
     if (node == i.first) return true;
   }
   return false;
@@ -47,7 +47,7 @@ bool Graph::_isCyclic(int start) {
 
 bool Graph::isCyclic() {
   found = {};
-  for (auto it : nodes) {
+  for (auto& it : nodes) {
     if (this->_isCyclic(it.first)) {
       found.clear();
       return true;

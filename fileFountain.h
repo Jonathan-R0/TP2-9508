@@ -1,6 +1,7 @@
 #ifndef FILEFOUNTAIN_H_
 #define FILEFOUNTAIN_H_
 
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -9,10 +10,12 @@ class FileFountain {
   std::vector<std::string> files;
   size_t alreadyRead;
   size_t toRead;
+  std::mutex m;
 
  public:
-  FileFountain(int argc, char* argv[]);
+  FileFountain(int argc, char *argv[]);
   std::string getNext();
+  int getNumberOfFiles();
   // void sortFiles();
 };
 

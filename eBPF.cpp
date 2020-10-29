@@ -6,10 +6,11 @@
 #include <iostream>
 
 #include "asmline.h"
+#include "fileFountain.h"
 #include "parser.h"
 #include "results.h"
 
-void EBPF::init() {
+void EBPF::init(std::string& filename) {
   std::ifstream reader;
   reader.open(filename, std::ifstream::in);
   int i = 1;
@@ -24,18 +25,21 @@ void EBPF::init() {
   reader.close();
 }
 
-EBPF::EBPF(std::string fname, Results& r) : filename(fname), results(r) {
+EBPF::EBPF(Results& r, FileFountain& f) : results(r), fileFountain(f) {
   referenciasColgadas = {};
   referenciasReconocidas = {};
-  this->init();
 }
 
 void EBPF::run() {
-  bool hasCycles = this->hasCycle();
-  if (hasCycles)
-    results.addResult(filename, true, false);
-  else
-    results.addResult(filename, false, this->hasUnusedInstruction());
+  std::string filename;
+  while (!(filename = fileFountain.getNext()).empty()) {
+    this->init(filename);
+    bool hasCycles = this->hasCycle();
+    if (hasCycles)
+      results.addResult(filename, true, false);
+    else
+      results.addResult(filename, false, this->hasUnusedInstruction());
+  }
 }
 
 void EBPF::connectLostTags() {
