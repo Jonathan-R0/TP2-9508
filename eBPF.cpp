@@ -1,13 +1,41 @@
 #include "eBPF.h"
 
+#include <bits/stdc++.h>
+
+#include <fstream>
 #include <iostream>
 
 #include "asmline.h"
 #include "parser.h"
+#include "results.h"
 
-EBPF::EBPF() {
+void EBPF::init() {
+  std::ifstream reader;
+  reader.open(filename, std::ifstream::in);
+  int i = 1;
+  while (reader.good()) {
+    std::string myText;
+    std::getline(reader, myText, '\n');
+    if (myText.size() == 0) continue;
+    this->addInstructionToGraph(myText, i);
+    i++;
+  }
+  this->connectLostTags();
+  reader.close();
+}
+
+EBPF::EBPF(std::string fname, Results& r) : filename(fname), results(r) {
   referenciasColgadas = {};
   referenciasReconocidas = {};
+  this->init();
+}
+
+void EBPF::run() {
+  bool hasCycles = this->hasCycle();
+  if (hasCycles)
+    results.addResult(filename, true, false);
+  else
+    results.addResult(filename, false, this->hasUnusedInstruction());
 }
 
 void EBPF::connectLostTags() {
