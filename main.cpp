@@ -11,10 +11,9 @@
 
 #define ERR_INSF_ARG "Error, argument not long enough.\n"
 
-static int work(int numberOfThreads, FileFountain& files) {
+static void work(int numberOfThreads, FileFountain& files) {
   std::vector<EBPF*> holders;
   Results results;
-
   holders.reserve(numberOfThreads);
 
   for (int i = 0; i < numberOfThreads; i++) {
@@ -28,7 +27,6 @@ static int work(int numberOfThreads, FileFountain& files) {
   }
 
   results.printResults();
-  return 0;
 }
 
 int main(int argc, char* argv[]) {
@@ -40,5 +38,6 @@ int main(int argc, char* argv[]) {
   int numberOfThreads = strtol(argv[1], NULL, 10);
   if (numberOfThreads < 1) return -1;
   FileFountain filefountain(argc, argv);
-  return work(numberOfThreads, filefountain);
+  work(numberOfThreads, filefountain);
+  return 0;
 }

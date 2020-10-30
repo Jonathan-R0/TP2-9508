@@ -15,7 +15,6 @@ class FileFountain {
   FileFountain(int argc, char *argv[]);
   std::string getNext();
   int getNumberOfFiles();
-  // void sortFiles();
 };
 
 #endif  // FILEFOUNTAIN_H_

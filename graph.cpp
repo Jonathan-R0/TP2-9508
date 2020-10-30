@@ -1,15 +1,13 @@
 #include "graph.h"
 
+#include <algorithm>
 #include <iostream>
 #include <list>
 #include <map>
 #include <string>
 
 bool Graph::hasBeenFound(int node, std::list<int>& found) {
-  for (int i : found) {
-    if (node == i) return true;
-  }
-  return false;
+  return (find(found.begin(), found.end(), node) != found.end());
 }
 
 void Graph::addVertex(int node) { nodes[node] = {}; }

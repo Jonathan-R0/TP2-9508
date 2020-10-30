@@ -13,11 +13,6 @@ class Asmline {
 
  public:
   Asmline();
-
-  // TEST ONLY
-  void seeLabel();
-  void seeOpCode();
-  void seeLabelsToJump();
   void setLabel(std::string labelGiven);
   void setOpCode(std::string opCodeGiven);
   std::string getOpcode();

@@ -22,15 +22,14 @@ static void parseSpaces(std::string* asmLine) {
   *asmLine = noSpacesExtra;
 }
 
-static void parseData(Parser* p, std::string& asmLine,
-                      std::list<char>& delimsSeen,
+static void parseData(Parser* p, std::string& asmLine, bool& hasLabel,
                       std::list<std::string>& parts) {
   std::string placeHolder;
   char lastChar = 0;
   for (auto c : asmLine) {
     lastChar = c;
     if (p->isDelim(c)) {
-      delimsSeen.push_back(c);
+      if (c == ':') hasLabel = true;
       if (placeHolder.size() != 0) {
         parts.push_back(placeHolder);
       }
@@ -42,28 +41,26 @@ static void parseData(Parser* p, std::string& asmLine,
   if (!p->isDelim(lastChar)) parts.push_back(placeHolder);
 }
 
-static void parseLabel(Asmline& instruction, std::list<char>& delimsSeen,
+static void parseLabel(Asmline& instruction, bool hasLabel,
                        std::list<std::string>& parts) {
   if (parts.size() == 0) return;
   std::string s;
-  if (delimsSeen.front() == ':') {
-    delimsSeen.pop_front();
+  if (hasLabel) {
     instruction.setLabel(parts.front());
     parts.pop_front();
   }
 }
 
 void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
-  std::list<char> delimsSeen;
+  bool hasLabel = false;
   std::list<std::string> parts;
 
   parseSpaces(&asmLine);
 
-  parseData(this, asmLine, delimsSeen, parts);
+  parseData(this, asmLine, hasLabel, parts);
   if (parts.size() == 0) return;  // Empty line.
-  parseLabel(instruction, delimsSeen, parts);
+  parseLabel(instruction, hasLabel, parts);
 
-  if (delimsSeen.front() == ' ') delimsSeen.pop_front();
   instruction.setOpCode(parts.front());
   parts.pop_front();
   instruction.setLabelsToJump(parts);

@@ -8,16 +8,16 @@
 class Graph {
  private:
   std::map<int, std::list<int>> nodes;
+  int size();
+  bool hasBeenFound(int node, std::list<int>& found);
+  bool _isCyclic(int start, std::list<int>& found);
 
  public:
   Graph() {}
   void addVertex(int node);
-  bool hasBeenFound(int node, std::list<int>& found);
-  int size();
   bool isIn(int node);
   void addIfItsNotIn(int node);
   void addEdge(int from, int to);
-  bool _isCyclic(int start, std::list<int>& found);
   bool isCyclic();
   void dfs(int start, std::list<int>& found);
   void connect(int from, int to);
