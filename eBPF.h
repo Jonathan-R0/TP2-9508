@@ -3,6 +3,7 @@
 
 #include <list>
 #include <map>
+#include <mutex>
 #include <string>
 
 #include "fileFountain.h"
@@ -20,7 +21,7 @@ class EBPF : public Thread {
   Graph opGraph;
   Parser parser;
   FileFountain& fileFountain;
-  void init(std::string& filename);
+  void init(std::ifstream& reader);
 
  public:
   EBPF(Results& r, FileFountain& f);
@@ -28,6 +29,7 @@ class EBPF : public Thread {
   void addInstructionToGraph(std::string line, int lineNumber);
   void connectLostTags();
   bool hasCycle();
+  void restart();
   ~EBPF() {}
   bool hasUnusedInstruction();
 };

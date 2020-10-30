@@ -15,10 +15,6 @@ static int work(int numberOfThreads, FileFountain& files) {
   std::vector<EBPF*> holders;
   Results results;
 
-  numberOfThreads = numberOfThreads > files.getNumberOfFiles()
-                        ? files.getNumberOfFiles()
-                        : numberOfThreads;
-
   holders.reserve(numberOfThreads);
 
   for (int i = 0; i < numberOfThreads; i++) {

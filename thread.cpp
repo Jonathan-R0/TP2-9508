@@ -1,5 +1,7 @@
 #include "thread.h"
 
+#include <utility>
+
 Thread::Thread() {}
 
 Thread::~Thread() {}

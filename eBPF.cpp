@@ -10,9 +10,7 @@
 #include "parser.h"
 #include "results.h"
 
-void EBPF::init(std::string& filename) {
-  std::ifstream reader;
-  reader.open(filename, std::ifstream::in);
+void EBPF::init(std::ifstream& reader) {
   int i = 1;
   while (reader.good()) {
     std::string myText;
@@ -22,7 +20,6 @@ void EBPF::init(std::string& filename) {
     i++;
   }
   this->connectLostTags();
-  reader.close();
 }
 
 EBPF::EBPF(Results& r, FileFountain& f) : results(r), fileFountain(f) {
@@ -33,13 +30,23 @@ EBPF::EBPF(Results& r, FileFountain& f) : results(r), fileFountain(f) {
 void EBPF::run() {
   std::string filename;
   while (!(filename = fileFountain.getNext()).empty()) {
-    this->init(filename);
-    bool hasCycles = this->hasCycle();
-    if (hasCycles)
-      results.addResult(filename, true, false);
-    else
-      results.addResult(filename, false, this->hasUnusedInstruction());
+    std::ifstream reader;
+    Graph opGraph;
+    reader.open(filename, std::ifstream::in);
+    this->init(reader);
+    reader.close();
+    bool cycle = this->hasCycle();
+    bool unused = this->hasUnusedInstruction();
+    this->restart();
+    results.addResult(filename, cycle, unused);
   }
+}
+
+void EBPF::restart() {
+  referenciasColgadas.clear();
+  referenciasReconocidas.clear();
+  aristaACortar.clear();
+  opGraph.clear();
 }
 
 void EBPF::connectLostTags() {

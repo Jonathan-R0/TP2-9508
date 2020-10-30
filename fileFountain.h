@@ -8,7 +8,6 @@
 class FileFountain {
  private:
   std::vector<std::string> files;
-  size_t alreadyRead;
   size_t toRead;
   std::mutex m;
 
