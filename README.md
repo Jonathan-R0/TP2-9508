@@ -27,8 +27,6 @@ Siendo:
 
 ## Diseño y Clases
 
-***TO DO***
-
 La naturaleza de este programa requiere la existencia de una clase thread. Esta clase abstracta implementa todos los métodos necesarios para que este funcione y particularmente tenemos el método abstracto run, el cual es redefinido por el eBPF para que cada hilo pueda ejecutar de forma concurrente sus tareas.
 
 El eBPF tiene a las clases fileRepository y results para obtener y guardar la información de la lectura de cada archivo, respectivamente. 
