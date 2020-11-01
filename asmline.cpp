@@ -1,5 +1,6 @@
 #include "asmline.h"
 
+#include <algorithm>
 #include <iostream>
 
 Asmline::Asmline() {
@@ -11,10 +12,7 @@ Asmline::Asmline() {
 }
 
 bool Asmline::isJump() {
-  for (auto j : jumpCodes) {
-    if (opCode.compare(j) == 0) return true;
-  }
-  return false;
+  return (find(jumpCodes.begin(), jumpCodes.end(), opCode) != jumpCodes.end());
 }
 
 bool Asmline::esCortante() {

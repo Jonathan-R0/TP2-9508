@@ -41,7 +41,7 @@ bool Graphfiller::hasUnusedInstruction() {
 
 void Graphfiller::connectLostTags() {
   for (int i : aristaACortar) opGraph.disconnectNext(i);
-  for (auto it : referenciasColgadas) {
+  for (auto& it : referenciasColgadas) {
     for (int lineNumber : it.second) {
       opGraph.connect(lineNumber, referenciasReconocidas[it.first]);
     }

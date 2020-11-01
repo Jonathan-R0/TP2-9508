@@ -11,6 +11,13 @@
 
 #define ERR_INSF_ARG "Error, argument not long enough.\n"
 
+static void destroyThreads(std::vector<EBPF*>& holders) {
+  for (auto& it : holders) {
+    it->join();
+    delete it;
+  }
+}
+
 static void work(int numberOfThreads, FileFountain& files) {
   std::vector<EBPF*> holders;
   Results results;
@@ -21,11 +28,7 @@ static void work(int numberOfThreads, FileFountain& files) {
   }
 
   for (auto& it : holders) it->start();
-  for (auto& it : holders) {
-    it->join();
-    delete it;
-  }
-
+  destroyThreads(holders);
   results.printResults();
 }
 

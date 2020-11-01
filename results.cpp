@@ -28,7 +28,7 @@ void Results::addResult(std::string file, bool hasCycleB, bool hasUnusedOpB) {
 
 void Results::printResults() {
   sort(allops);
-  for (std::string s : allops) {
+  for (std::string& s : allops) {
     if (find(good.begin(), good.end(), s) != good.end())
       std::cout << s << CORRECT;
     else if (find(hasCycle.begin(), hasCycle.end(), s) != hasCycle.end())

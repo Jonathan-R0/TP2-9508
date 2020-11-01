@@ -21,7 +21,7 @@ void Graph::addEdge(int from, int to) {
 int Graph::size() { return nodes.size(); }
 
 bool Graph::isIn(int node) {
-  for (auto i : nodes) {
+  for (auto& i : nodes) {
     if (node == i.first) return true;
   }
   return false;
@@ -36,7 +36,7 @@ void Graph::addIfItsNotIn(int node) {
 bool Graph::_isCyclic(int start, std::list<int>& found) {
   if (hasBeenFound(start, found)) return true;
   found.push_front(start);
-  for (int i : nodes.at(start)) {
+  for (int& i : nodes.at(start)) {
     if (Graph::_isCyclic(i, found)) return true;
   }
   found.remove(start);
@@ -47,7 +47,7 @@ void Graph::clear() { nodes.clear(); }
 
 bool Graph::isCyclic() {
   std::list<int> found;
-  for (auto it : nodes) {
+  for (auto& it : nodes) {
     if (this->_isCyclic(it.first, found)) {
       found.clear();
       return true;
@@ -62,7 +62,7 @@ void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
 void Graph::dfs(int start, std::list<int>& found) {
   if (hasBeenFound(start, found)) return;
   found.push_front(start);
-  for (int i : nodes[start]) {
+  for (int& i : nodes[start]) {
     if (!(hasBeenFound(i, found))) {
       Graph::dfs(i, found);
     }
@@ -80,7 +80,7 @@ bool Graph::hasUnusedInstructions() {
 
 void Graph::disconnectNext(int nodo) {
   std::list<int> searching = nodes[nodo];
-  for (int it : searching) {
+  for (int& it : searching) {
     if (nodo + 1 == it) {
       nodes[nodo].remove(it);
       break;
