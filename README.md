@@ -15,7 +15,7 @@ Para configurar y ejecutar el código lo primero que se debe hacer es clonar el 
 Se debe ejecutar con 
 
 ```
-./client <NUMBER-OF-THREADS> <FILE-1> <FILE-2> ... <FILE-N>
+./tp <NUMBER-OF-THREADS> <FILE-1> <FILE-2> ... <FILE-N>
 ```
 
 Siendo:
