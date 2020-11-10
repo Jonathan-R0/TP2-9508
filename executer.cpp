@@ -11,10 +11,7 @@
 #include "results.h"
 #include "thread.h"
 
-void Executer::exec(int argc, char* argv[]) {
-  int numberOfThreads = strtol(argv[1], NULL, 10);
-  std::vector<EBPF*> holders;
-
+void Executer::run(int argc, char* argv[]) {
   FileFountain files(argc, argv);
   Results results;
   holders.reserve(numberOfThreads);

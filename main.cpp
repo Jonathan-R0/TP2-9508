@@ -9,6 +9,7 @@ int main(int argc, char* argv[]) {
     std::cerr << ERR_INSF_ARG;
     return -1;
   }
-  Executer::exec(argc, argv);
+  Executer exec(argv);
+  exec.run(argc, argv);
   return 0;
 }
