@@ -4,8 +4,9 @@
 #include <string>
 
 #define SUCCESS 0
+#define FAILURE (SUCCESS - 1)
 
-Parser::Parser() { delims = {':', ',', ' ', '\n', '\t', '\0'}; }
+Parser::Parser() : delims({':', ',', ' ', '\n', '\t', '\0'}) {}
 
 bool Parser::isDelim(char c) {
   for (auto i : delims) {
@@ -50,7 +51,7 @@ static int parseData(Parser* p, std::string asmLine, bool& hasLabel,
     }
   }
   if (!p->isDelim(lastChar)) parts.push_back(placeHolder);
-  if (parts.size() == 0) return 1;  // Empty line.
+  if (parts.size() == 0) return FAILURE;  // Empty line.
   parseLabel(instruction, hasLabel, parts);
   return SUCCESS;
 }
@@ -61,11 +62,10 @@ void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
 
   parseSpaces(&asmLine);
 
-  if (parseData(this, std::move(asmLine), hasLabel, parts, instruction) !=
-      SUCCESS)
-    return;
-
-  instruction.setOpCode(std::move(parts.front()));
-  parts.pop_front();
-  instruction.setLabelsToJump(std::move(parts));
+  if (parseData(this, std::move(asmLine), hasLabel, parts, instruction) ==
+      SUCCESS) {
+    instruction.setOpCode(std::move(parts.front()));
+    parts.pop_front();
+    instruction.setLabelsToJump(std::move(parts));
+  }
 }

@@ -18,10 +18,12 @@ Graphfiller::Graphfiller() {
 
 void Graphfiller::addInstructionToGraph(std::string line, int lineNumber) {
   if (line.size() == 0) return;
+
   Asmline instruction;
   parser.parseInstruction(std::move(line), instruction);
   opGraph.addVertex(lineNumber);
   if (lineNumber != 1) opGraph.connectLast(lineNumber);
+
   std::list<std::string> labelsToJump = instruction.getLabelsToJumpTo();
   if (instruction.esCortante()) aristaACortar.push_front(lineNumber);
   if (instruction.getLabel().size() != 0)

@@ -6,10 +6,6 @@
 #include <map>
 #include <string>
 
-bool Graph::hasBeenFound(int node, std::list<int>& found) {
-  return (find(found.begin(), found.end(), node) != found.end());
-}
-
 void Graph::addVertex(int node) { nodes[node] = {}; }
 
 void Graph::addEdge(int from, int to) {
@@ -33,6 +29,26 @@ void Graph::addIfItsNotIn(int node) {
   }
 }
 
+void Graph::clear() { nodes.clear(); }
+
+void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
+
+void Graph::disconnectNext(int nodo) {
+  std::list<int> searching = std::move(nodes[nodo]);
+  for (int& it : searching) {
+    if (nodo + 1 == it) {
+      nodes[nodo].remove(it);
+      break;
+    }
+  }
+}
+
+void Graph::connect(int from, int to) { nodes[from].push_front(to); }
+
+bool Graph::hasBeenFound(int node, std::list<int>& found) {
+  return (find(found.begin(), found.end(), node) != found.end());
+}
+
 bool Graph::_isCyclic(int start, std::list<int>& found) {
   if (hasBeenFound(start, found)) return true;
   found.push_front(start);
@@ -42,8 +58,6 @@ bool Graph::_isCyclic(int start, std::list<int>& found) {
   found.remove(start);
   return false;
 }
-
-void Graph::clear() { nodes.clear(); }
 
 bool Graph::isCyclic() {
   std::list<int> found;
@@ -55,8 +69,6 @@ bool Graph::isCyclic() {
   }
   return false;
 }
-
-void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
 
 void Graph::dfs(int start, std::list<int>& found) {
   if (hasBeenFound(start, found)) return;
@@ -76,15 +88,3 @@ bool Graph::hasUnusedInstructions() {
   found.clear();
   return (amountFound != nodes.size());
 }
-
-void Graph::disconnectNext(int nodo) {
-  std::list<int> searching = std::move(nodes[nodo]);
-  for (int& it : searching) {
-    if (nodo + 1 == it) {
-      nodes[nodo].remove(it);
-      break;
-    }
-  }
-}
-
-void Graph::connect(int from, int to) { nodes[from].push_front(to); }

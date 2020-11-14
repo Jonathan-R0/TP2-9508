@@ -18,11 +18,11 @@ void Results::addResult(std::string file, bool hasCycleB, bool hasUnusedOpB) {
   std::unique_lock<std::mutex> lock(m);
   allops.push_back(file);
   if (hasCycleB) {
-    hasCycle.push_back(file);
+    hasCycle.push_back(std::move(file));
   } else if (hasUnusedOpB) {
-    hasUnusedInstructions.push_back(file);
+    hasUnusedInstructions.push_back(std::move(file));
   } else {
-    good.push_back(file);
+    good.push_back(std::move(file));
   }
 }
 
