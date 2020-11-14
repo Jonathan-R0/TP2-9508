@@ -53,7 +53,6 @@ bool Graph::isCyclic() {
       return true;
     }
   }
-  found.clear();
   return false;
 }
 
@@ -79,7 +78,7 @@ bool Graph::hasUnusedInstructions() {
 }
 
 void Graph::disconnectNext(int nodo) {
-  std::list<int> searching = nodes[nodo];
+  std::list<int> searching = std::move(nodes[nodo]);
   for (int& it : searching) {
     if (nodo + 1 == it) {
       nodes[nodo].remove(it);

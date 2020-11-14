@@ -18,7 +18,7 @@ void EBPF::init(std::string& filename) {
     std::string myText;
     std::getline(reader, myText, '\n');
     if (myText.size() == 0) continue;
-    filler.addInstructionToGraph(myText, i);
+    filler.addInstructionToGraph(std::move(myText), i);
     i++;
   }
   reader.close();
@@ -31,10 +31,9 @@ void EBPF::run() {
   std::string filename;
   while (!(filename = fileFountain.getNext()).empty()) {
     this->init(filename);
-    bool cycle = filler.hasCycle();
-    bool unused = filler.hasUnusedInstruction();
+    results.addResult(std::move(filename), filler.hasCycle(),
+                      filler.hasUnusedInstruction());
     this->restart();
-    results.addResult(filename, cycle, unused);
   }
 }
 

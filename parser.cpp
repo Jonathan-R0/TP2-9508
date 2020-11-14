@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#define SUCCESS 0
+
 Parser::Parser() { delims = {':', ',', ' ', '\n', '\t', '\0'}; }
 
 bool Parser::isDelim(char c) {
@@ -22,8 +24,17 @@ static void parseSpaces(std::string* asmLine) {
   *asmLine = noSpacesExtra;
 }
 
-static void parseData(Parser* p, std::string& asmLine, bool& hasLabel,
-                      std::list<std::string>& parts) {
+static void parseLabel(Asmline& instruction, bool hasLabel,
+                       std::list<std::string>& parts) {
+  if (parts.size() == 0) return;
+  if (hasLabel) {
+    instruction.setLabel(std::move(parts.front()));
+    parts.pop_front();
+  }
+}
+
+static int parseData(Parser* p, std::string asmLine, bool& hasLabel,
+                     std::list<std::string>& parts, Asmline& instruction) {
   std::string placeHolder;
   char lastChar = 0;
   for (auto c : asmLine) {
@@ -39,16 +50,9 @@ static void parseData(Parser* p, std::string& asmLine, bool& hasLabel,
     }
   }
   if (!p->isDelim(lastChar)) parts.push_back(placeHolder);
-}
-
-static void parseLabel(Asmline& instruction, bool hasLabel,
-                       std::list<std::string>& parts) {
-  if (parts.size() == 0) return;
-  std::string s;
-  if (hasLabel) {
-    instruction.setLabel(parts.front());
-    parts.pop_front();
-  }
+  if (parts.size() == 0) return 1;  // Empty line.
+  parseLabel(instruction, hasLabel, parts);
+  return SUCCESS;
 }
 
 void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
@@ -57,11 +61,11 @@ void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
 
   parseSpaces(&asmLine);
 
-  parseData(this, asmLine, hasLabel, parts);
-  if (parts.size() == 0) return;  // Empty line.
-  parseLabel(instruction, hasLabel, parts);
+  if (parseData(this, std::move(asmLine), hasLabel, parts, instruction) !=
+      SUCCESS)
+    return;
 
-  instruction.setOpCode(parts.front());
+  instruction.setOpCode(std::move(parts.front()));
   parts.pop_front();
-  instruction.setLabelsToJump(parts);
+  instruction.setLabelsToJump(std::move(parts));
 }

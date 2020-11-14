@@ -35,6 +35,6 @@ void Asmline::setLabelsToJump(std::list<std::string> labelsToJumpGiven) {
     labelsToJump.push_back(labelsToJumpGiven.back());
   } else {
     labelsToJumpGiven.pop_front();
-    labelsToJump = labelsToJumpGiven;
+    labelsToJump = std::move(labelsToJumpGiven);
   }
 }
