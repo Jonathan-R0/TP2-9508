@@ -6,13 +6,8 @@
 #include "asmline.h"
 
 class Parser {
- private:
-  std::list<char> delims;
-
  public:
-  Parser();
   void parseInstruction(std::string asmLine, Asmline& instruction);
-  bool isDelim(char c);
 };
 
 #endif  // PARSER_H_

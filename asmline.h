@@ -15,6 +15,7 @@ class Asmline {
   Asmline();
   void setLabel(std::string labelGiven);
   void setOpCode(std::string opCodeGiven);
+  void setLabelToJump(std::string labelToJumpGiven);
   std::string getOpcode();
   std::string getLabel();
   std::list<std::string> getLabelsToJumpTo();
