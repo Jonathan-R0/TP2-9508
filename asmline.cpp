@@ -4,8 +4,10 @@
 #include <iostream>
 #include <utility>
 
-Asmline::Asmline()
-    : jumpCodes({"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge",
+Asmline::Asmline(std::string label_, std::string opCode_)
+    : opCode(opCode_),
+      label(label_),
+      jumpCodes({"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge",
                  "jset"}) {}
 
 bool Asmline::isJump() {
@@ -23,8 +25,13 @@ std::string Asmline::getLabel() { return this->label; }
 std::list<std::string> Asmline::getLabelsToJumpTo() {
   return this->labelsToJump;
 }
-void Asmline::setOpCode(std::string opCodeGiven) { opCode = opCodeGiven; }
 void Asmline::setLabelToJump(std::string labelToJumpGiven) {
   labelsToJump.push_back(labelToJumpGiven);
 }
-void Asmline::setLabel(std::string labelGiven) { label = labelGiven; }
+
+Asmline::Asmline(Asmline&& other) {
+  this->opCode = std::move(other.opCode);
+  this->label = std::move(other.label);
+  this->labelsToJump = std::move(other.labelsToJump);
+  this->jumpCodes = std::move(other.jumpCodes);
+}

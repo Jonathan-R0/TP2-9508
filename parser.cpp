@@ -14,12 +14,14 @@ static void parseSpaces(std::string* asmLine) {
   *asmLine = noSpacesExtra;
 }
 
-void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
+Asmline Parser::parseInstruction(std::string asmLine) {
   parseSpaces(&asmLine);
+  std::string label;
+  std::string opCode;
 
   int firstDots = asmLine.find_first_of(":");
   if (firstDots != -1) {
-    instruction.setLabel(std::move(asmLine.substr(0, firstDots)));
+    label = std::move(asmLine.substr(0, firstDots));
     asmLine.erase(0, firstDots + 1);
     int firstNonSpace = asmLine.find_first_not_of(" ");
     asmLine.erase(0, firstNonSpace);
@@ -27,9 +29,11 @@ void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
 
   int firstSpace = asmLine.find_first_of(" ");
   if (firstSpace != -1) {
-    instruction.setOpCode(std::move(asmLine.substr(0, firstSpace)));
+    opCode = std::move(asmLine.substr(0, firstSpace));
     asmLine.erase(0, firstSpace + 1);
   }
+
+  Asmline instruction(std::move(label), std::move(opCode));
 
   if (instruction.isJump()) {
     int firstComma = asmLine.find_first_of(",");
@@ -45,4 +49,5 @@ void Parser::parseInstruction(std::string asmLine, Asmline& instruction) {
       instruction.setLabelToJump(std::move(asmLine));
     }
   }
+  return instruction;
 }

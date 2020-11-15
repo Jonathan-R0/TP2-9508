@@ -12,9 +12,7 @@ class Asmline {
   std::list<std::string> jumpCodes;
 
  public:
-  Asmline();
-  void setLabel(std::string labelGiven);
-  void setOpCode(std::string opCodeGiven);
+  Asmline(std::string label_, std::string opCode);
   void setLabelToJump(std::string labelToJumpGiven);
   std::string getOpcode();
   std::string getLabel();
@@ -22,6 +20,7 @@ class Asmline {
   void setLabelsToJump(std::list<std::string> labelsToJumpGiven);
   bool isJump();
   bool esCortante();
+  Asmline(Asmline&& other);
 };
 
 #endif  // ASMLINE_H_

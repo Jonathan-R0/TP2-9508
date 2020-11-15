@@ -7,7 +7,7 @@
 
 class Parser {
  public:
-  void parseInstruction(std::string asmLine, Asmline& instruction);
+  Asmline parseInstruction(std::string asmLine);
 };
 
 #endif  // PARSER_H_
