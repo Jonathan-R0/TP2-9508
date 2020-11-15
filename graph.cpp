@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <utility>
 
 void Graph::addVertex(int node) { nodes[node] = {}; }
 
@@ -16,12 +17,7 @@ void Graph::addEdge(int from, int to) {
 
 int Graph::size() { return nodes.size(); }
 
-bool Graph::isIn(int node) {
-  for (auto& i : nodes) {
-    if (node == i.first) return true;
-  }
-  return false;
-}
+bool Graph::isIn(int node) { return (nodes.find(node)->first != node); }
 
 void Graph::addIfItsNotIn(int node) {
   if (!this->isIn(node)) {
@@ -35,11 +31,9 @@ void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
 
 void Graph::disconnectNext(int nodo) {
   std::list<int> searching = std::move(nodes[nodo]);
-  for (int& it : searching) {
-    if (nodo + 1 == it) {
-      nodes[nodo].remove(it);
-      break;
-    }
+  auto it = std::find(nodes[nodo].begin(), nodes[nodo].end(), nodo);
+  if (nodo + 1 == *it) {
+    nodes[nodo].remove(*it);
   }
 }
 
@@ -52,22 +46,24 @@ bool Graph::hasBeenFound(int node, std::list<int>& found) {
 bool Graph::_isCyclic(int start, std::list<int>& found) {
   if (hasBeenFound(start, found)) return true;
   found.push_front(start);
-  for (int& i : nodes.at(start)) {
-    if (Graph::_isCyclic(i, found)) return true;
-  }
+  auto begin = nodes.at(start).begin();
+  auto end = nodes.at(start).end();
+  if (std::any_of(begin, end,
+                  [&found, this](int i) { return this->_isCyclic(i, found); }))
+    return true;
   found.remove(start);
   return false;
 }
 
 bool Graph::isCyclic() {
   std::list<int> found;
-  for (auto& it : nodes) {
-    if (this->_isCyclic(it.first, found)) {
-      found.clear();
-      return true;
-    }
-  }
-  return false;
+  auto begin = nodes.begin();
+  auto end = nodes.end();
+  // Lo dejo así por el linter, pero la versión
+  // anterior hacía menos accesos a memoria :S
+  return std::any_of(begin, end, [&found, this](iterator_t it) {
+    return this->_isCyclic(it.first, found);
+  });
 }
 
 void Graph::dfs(int start, std::list<int>& found) {
