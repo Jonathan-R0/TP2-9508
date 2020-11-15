@@ -13,8 +13,8 @@ class Asmline {
 
  public:
   Asmline();
-  void setLabel(const std::string& labelGiven);
-  void setOpCode(const std::string& opCodeGiven);
+  void setLabel(std::string labelGiven);
+  void setOpCode(std::string opCodeGiven);
   void setLabelToJump(std::string labelToJumpGiven);
   std::string getOpcode();
   std::string getLabel();

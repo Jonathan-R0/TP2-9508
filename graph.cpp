@@ -74,7 +74,5 @@ bool Graph::hasUnusedInstructions() {
   std::list<int> found;
   if (nodes.size() == 0) return false;
   dfs(1, found);
-  long unsigned int amountFound = found.size();
-  found.clear();
-  return (amountFound != nodes.size());
+  return (found.size() != nodes.size());
 }
