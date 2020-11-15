@@ -29,18 +29,9 @@ void Graph::clear() { nodes.clear(); }
 
 void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
 
-void Graph::disconnectNext(int nodo) {
-  auto it = std::find(nodes[nodo].begin(), nodes[nodo].end(), nodo);
-  if (nodo + 1 == *it) {
-    nodes[nodo].remove(*it);
-  }
-}
+void Graph::disconnectNext(int nodo) { nodes[nodo].remove(nodo + 1); }
 
 void Graph::connect(int from, int to) { nodes[from].push_front(to); }
-
-bool Graph::hasBeenFound(int node, std::list<int>& found) {
-  return (find(found.begin(), found.end(), node) != found.end());
-}
 
 bool Graph::_isCyclic(int start, std::list<int>& found) {
   if (hasBeenFound(start, found)) return true;
@@ -63,6 +54,10 @@ bool Graph::isCyclic() {
   return std::any_of(begin, end, [&found, this](iterator_t it) {
     return this->_isCyclic(it.first, found);
   });
+}
+
+bool Graph::hasBeenFound(int node, std::list<int>& found) {
+  return (find(found.begin(), found.end(), node) != found.end());
 }
 
 void Graph::dfs(int start, std::list<int>& found) {

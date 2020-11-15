@@ -23,10 +23,10 @@ std::string Asmline::getLabel() { return this->label; }
 std::list<std::string> Asmline::getLabelsToJumpTo() {
   return this->labelsToJump;
 }
-void Asmline::setLabel(const std::string& labelGiven) { label = labelGiven; }
 void Asmline::setOpCode(const std::string& opCodeGiven) {
   opCode = opCodeGiven;
 }
 void Asmline::setLabelToJump(std::string labelToJumpGiven) {
   labelsToJump.push_back(labelToJumpGiven);
 }
+void Asmline::setLabel(const std::string& labelGiven) { label = labelGiven; }
