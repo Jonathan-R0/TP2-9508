@@ -30,7 +30,6 @@ void Graph::clear() { nodes.clear(); }
 void Graph::connectLast(int to) { this->addEdge(nodes.size() - 1, to); }
 
 void Graph::disconnectNext(int nodo) {
-  std::list<int> searching = std::move(nodes[nodo]);
   auto it = std::find(nodes[nodo].begin(), nodes[nodo].end(), nodo);
   if (nodo + 1 == *it) {
     nodes[nodo].remove(*it);
