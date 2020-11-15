@@ -8,13 +8,11 @@
 class FileFountain {
  private:
   std::vector<std::string> files;
-  size_t toRead;
   std::mutex m;
 
  public:
   FileFountain(int argc, char *argv[]);
   std::string getNext();
-  int getNumberOfFiles();
 };
 
 #endif  // FILEFOUNTAIN_H_

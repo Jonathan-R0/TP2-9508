@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <utility>
 
 Asmline::Asmline()
     : jumpCodes({"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge",
@@ -18,23 +19,14 @@ bool Asmline::esCortante() {
   return false;
 }
 
-std::string Asmline::getOpcode() { return this->opCode; }
 std::string Asmline::getLabel() { return this->label; }
 std::list<std::string> Asmline::getLabelsToJumpTo() {
   return this->labelsToJump;
 }
-void Asmline::setLabel(std::string labelGiven) { label = labelGiven; }
-void Asmline::setOpCode(std::string opCodeGiven) { opCode = opCodeGiven; }
+void Asmline::setLabel(const std::string& labelGiven) { label = labelGiven; }
+void Asmline::setOpCode(const std::string& opCodeGiven) {
+  opCode = opCodeGiven;
+}
 void Asmline::setLabelToJump(std::string labelToJumpGiven) {
   labelsToJump.push_back(labelToJumpGiven);
-}
-
-void Asmline::setLabelsToJump(std::list<std::string> labelsToJumpGiven) {
-  if (!this->isJump()) return;
-  if (labelsToJumpGiven.size() == 1) {
-    labelsToJump.push_back(labelsToJumpGiven.back());
-  } else {
-    labelsToJumpGiven.pop_front();
-    labelsToJump = std::move(labelsToJumpGiven);
-  }
 }

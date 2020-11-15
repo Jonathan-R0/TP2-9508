@@ -11,7 +11,8 @@ class Executer {
   std::vector<EBPF*> holders;
 
  public:
-  Executer(char* argv[]) : numberOfThreads(strtol(argv[1], NULL, 10)) {}
+  explicit Executer(char* argv[])
+      : numberOfThreads(strtol(argv[1], NULL, 10)) {}
   void run(int argc, char* argv[]);
 };
 

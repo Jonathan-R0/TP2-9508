@@ -18,11 +18,11 @@ class EBPF : public Thread {
   Results& results;
   FileFountain& fileFountain;
   Graphfiller filler;
-  void init(std::string& filename);
+  void init(const std::string& filename);
 
  public:
   EBPF(Results& r, FileFountain& f);
-  void run();
+  void run() override;
   void restart();
   ~EBPF() {}
   bool hasCycle();

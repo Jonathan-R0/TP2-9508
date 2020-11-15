@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+typedef std::pair<int, std::list<int>> iterator_t;
+
 class Graph {
  private:
   std::map<int, std::list<int>> nodes;

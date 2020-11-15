@@ -1,7 +1,9 @@
 #ifndef GRAPHFILLER_H_
 #define GRAPHFILLER_H_
 
+#include <list>
 #include <map>
+#include <string>
 
 #include "graph.h"
 #include "parser.h"
@@ -15,7 +17,6 @@ class Graphfiller {
   Graph opGraph;
 
  public:
-  Graphfiller();
   void restart();
   void connectLostTags();
   void addInstructionToGraph(std::string line, int lineNumber);

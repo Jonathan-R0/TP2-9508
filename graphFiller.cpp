@@ -1,5 +1,9 @@
 #include "graphFiller.h"
 
+#include <list>
+#include <string>
+#include <utility>
+
 #include "asmline.h"
 #include "parser.h"
 
@@ -8,12 +12,6 @@ void Graphfiller::restart() {
   referenciasReconocidas.clear();
   aristaACortar.clear();
   opGraph.clear();
-}
-
-Graphfiller::Graphfiller() {
-  referenciasColgadas = {};
-  referenciasReconocidas = {};
-  aristaACortar = {};
 }
 
 void Graphfiller::addInstructionToGraph(std::string line, int lineNumber) {

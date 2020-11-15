@@ -4,13 +4,14 @@
 
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 #include "fileFountain.h"
 #include "graph.h"
 #include "graphFiller.h"
 #include "results.h"
 
-void EBPF::init(std::string& filename) {
+void EBPF::init(const std::string& filename) {
   int i = 1;
   std::ifstream reader;
   reader.open(filename, std::ifstream::in);

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <mutex>
+#include <utility>
 
 FileFountain::FileFountain(int argc, char* argv[]) {
   for (int i = argc - 1; i > 1; i--) {
@@ -10,8 +11,6 @@ FileFountain::FileFountain(int argc, char* argv[]) {
     files.push_back(file);
   }
 }
-
-int FileFountain::getNumberOfFiles() { return files.size(); }
 
 std::string FileFountain::getNext() {
   std::unique_lock<std::mutex> lock(m);
