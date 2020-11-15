@@ -4,7 +4,7 @@
 #include <iostream>
 #include <utility>
 
-Asmline::Asmline(std::string label_, std::string opCode_)
+Asmline::Asmline(const std::string& label_, const std::string& opCode_)
     : opCode(opCode_),
       label(label_),
       jumpCodes({"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge",

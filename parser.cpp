@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 
 static void parseSpaces(std::string* asmLine) {
   std::string noSpacesExtra = {};

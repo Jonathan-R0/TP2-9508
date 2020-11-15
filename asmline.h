@@ -12,7 +12,7 @@ class Asmline {
   std::list<std::string> jumpCodes;
 
  public:
-  Asmline(std::string label_, std::string opCode);
+  Asmline(const std::string& label_, const std::string& opCode_);
   void setLabelToJump(std::string labelToJumpGiven);
   std::string getOpcode();
   std::string getLabel();
