@@ -48,3 +48,15 @@ Las herramientas más utilizadas en este tp fueron:
 - ***Valgrind***: el glorioso programa que tanto nos ayuda a debuggear el código. Con flags como ```--track-origins=yes``` para ver donde se nos generan variables no inicializadas que puedan causar problemas, entre otros.
 
 - ***Gdb***: el debugger de GNU, súper útil para revisar con detalle el código y encontrar más facilmente la causa de problemas como segmentation faults, loops infinitos, entre otros.
+
+## Cambios Importantes de la Reentrega
+
+- El primer gran cambio es la creación de la clase `Executer`. La misma le permite al `main()` delegarle las tareas que antes tenía, para que el mismo no contenga ningún tipo de lógica innecesaria. Este contiene las referencias a los hilos creados y se encarga de crearlos, iniciarlos y luego destruirlos.
+
+- La clase `Asmline`, que antes ingresaba al parser para ser completada con la información que este procesaba, es ahora creada por la misma entidad y devuelta al finalizar de procesar la línea ingresada. La devolución se hace por movimiento. Esto permite eliminar algunos de los setters que utiliza, para poder inicializar el objeto con ingresando datos con el ***Member initializer list***.
+
+- Dentro de la clase `EBPF` se añade una pequeña optimización, donde se pasa el string "filename" hacia el repositorio de respuestas por movimiento. Otro cambio del estilo ocurre en el método `init` de la misma clase, donde ahora se envia la información leída por movimiento, evitando así copias innecesarias.
+
+- En el .cpp de la clase `Graph` se cambian la mayoría de las iteraciones rústicas por usos de funciones de la ***Standard Template Library***. 
+
+- Finalmente en la clase `Parser` se realizó una refactorización del método de parseo de líneas. Se evitan utilizan strings y listas de más, que lo único que hacen es comer más memoria, además de aprovechar mejor los métodos de la ***Standard Template Library***.
