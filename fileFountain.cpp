@@ -14,7 +14,7 @@ FileFountain::FileFountain(int argc, char* argv[]) {
 std::string FileFountain::getNext() {
   std::unique_lock<std::mutex> lock(m);
   if (files.size() == 0) return "";
-  std::string file = std::move(files.back());
+  std::string file(std::move(files.back()));
   files.pop_back();
   return file;
 }
