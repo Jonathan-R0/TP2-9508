@@ -18,7 +18,7 @@ void EBPF::init(const std::string& filename) {
   while (reader.good()) {
     std::string myText;
     std::getline(reader, myText, '\n');
-    if (myText.size() == 0) continue;
+    if (myText.empty()) continue;
     filler.addInstructionToGraph(std::move(myText), i);
     i++;
   }
