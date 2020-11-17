@@ -15,16 +15,16 @@ static void parseSpaces(std::string* asmLine) {
   *asmLine = noSpacesExtra;
 }
 
-static std::string makeLabel(int firstDots, std::string* asmLine){
+static std::string makeLabel(int firstDots, std::string* asmLine) {
   if (firstDots == -1) return "";
   std::string label = asmLine->substr(0, firstDots);
-  asmLine->erase(0, firstDots + 1); 
-  asmLine->erase(0, asmLine->find_first_not_of(" ")); 
+  asmLine->erase(0, firstDots + 1);
+  asmLine->erase(0, asmLine->find_first_not_of(" "));
   return label;
 }
 
-static std::string makeOpCode(int firstSpace, std::string* asmLine){
-  if (firstSpace == -1) return ""; 
+static std::string makeOpCode(int firstSpace, std::string* asmLine) {
+  if (firstSpace == -1) return "";
   std::string opCode = asmLine->substr(0, firstSpace);
   asmLine->erase(0, firstSpace + 1);
   return opCode;
