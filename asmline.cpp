@@ -7,8 +7,7 @@
 Asmline::Asmline(const std::string& label_, const std::string& opCode_)
     : opCode(opCode_),
       label(label_),
-      jumpCodes({"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge",
-                 "jset"}) {}
+      jumpCodes({"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge", "jset"}) {}
 
 bool Asmline::isJump() {
   return (find(jumpCodes.begin(), jumpCodes.end(), opCode) != jumpCodes.end());

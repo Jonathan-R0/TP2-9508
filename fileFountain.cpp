@@ -7,8 +7,7 @@
 
 FileFountain::FileFountain(int argc, char* argv[]) {
   for (int i = argc - 1; i > 1; i--) {
-    std::string file(argv[i]);
-    files.push_back(file);
+    files.push_back(std::string(argv[i]));
   }
 }
 
